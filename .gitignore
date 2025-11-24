@@ -1,0 +1,43 @@
+# Environment
+.env
+.env.local
+
+# Data directories
+data/
+!data/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# SSL Certificates
+*.pem
+*.crt
+*.key
+
+# Backups
+*.tar.gz
+*.zip
+backups/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+.git-backup/
+.git-backup/

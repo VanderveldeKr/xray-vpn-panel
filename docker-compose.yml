@@ -1,0 +1,85 @@
+version: '3.8'
+
+# VPN Server v1.1.0 - Updated 2025-11-24
+# Changelog: см. CHANGELOG.md
+
+services:
+  xray:
+    build:
+      context: ./xray
+      dockerfile: Dockerfile
+    container_name: vpn-xray
+    restart: unless-stopped
+    labels:
+      - "com.vpn.version=1.1.0"
+      - "com.vpn.component=xray"
+    ports:
+      - "8443:8443"
+      - "8444:8444"
+    volumes:
+      - ./data/xray:/etc/xray
+      - ./data/certs:/etc/xray/certs:ro
+      - ./data/logs/xray:/var/log/xray
+    networks:
+      - vpn-network
+    environment:
+      - TZ=Europe/Moscow
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: vpn-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/nginx:/etc/nginx/conf.d
+      - ./data/certs:/etc/letsencrypt:ro
+      - ./data/logs/nginx:/var/log/nginx
+      - ./web:/var/www/html
+    networks:
+      - vpn-network
+    depends_on:
+      - xray
+      - php
+    environment:
+      - TZ=Europe/Moscow
+
+  php:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: vpn-php
+    restart: unless-stopped
+    volumes:
+      - ./web:/var/www/html
+      - ./data/xray:/etc/xray
+      - ./data/users:/var/vpn/users
+    networks:
+      - vpn-network
+    environment:
+      - TZ=${TZ:-Europe/Moscow}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-change_me_please}
+      - DOMAIN=${DOMAIN:-your-domain.com}
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: vpn-certbot
+    volumes:
+      - ./data/certs:/etc/letsencrypt
+      - ./data/certbot-webroot:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - vpn-network
+
+networks:
+  vpn-network:
+    driver: bridge
+
+volumes:
+  xray-data:
+  nginx-data:
+  certs-data:
+

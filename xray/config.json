@@ -1,0 +1,105 @@
+{
+    "log": {
+        "loglevel": "warning"
+    },
+    "inbounds": [
+        {
+            "port": 8443,
+            "protocol": "vless",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "225abe6d-909f-4d7b-ae67-b94eeace911c",
+                        "flow": "xtls-rprx-vision",
+                        "email": "alisher@jobbot.site"
+                    },
+                    {
+                        "id": "a6df5f72-0792-4acd-b9c9-7260af4ec16c",
+                        "flow": "xtls-rprx-vision",
+                        "email": "filia@jobbot.site"
+                    },
+                    {
+                        "id": "cb5454f4-27c4-48f9-9d91-9a2f947c16c3",
+                        "flow": "xtls-rprx-vision",
+                        "email": "main@jobbot.site"
+                    },
+                    {
+                        "id": "6a6038df-6969-4c77-93ef-497b18155e40",
+                        "flow": "xtls-rprx-vision",
+                        "email": "drep@jobbot.site"
+                    },
+                    {
+                        "id": "130aa396-59e9-4ba7-8a12-6118ee0e211f",
+                        "flow": "xtls-rprx-vision",
+                        "email": "donis@jobbot.site"
+                    },
+                    {
+                        "id": "b209e1d3-0c26-410a-9aa2-840f23efce0f",
+                        "flow": "xtls-rprx-vision",
+                        "email": "donis2@jobbot.site"
+                    }
+                ],
+                "decryption": "none"
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "tls",
+                "tlsSettings": {
+                    "certificates": [
+                        {
+                            "certificateFile": "/usr/local/etc/xray/certs/fullchain.pem",
+                            "keyFile": "/usr/local/etc/xray/certs/privkey.pem"
+                        }
+                    ]
+                }
+            },
+            "tag": "vless-vision"
+        },
+        {
+            "port": 8444,
+            "protocol": "vless",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "225abe6d-909f-4d7b-ae67-b94eeace911c",
+                        "email": "alisher-ws@jobbot.site"
+                    },
+                    {
+                        "id": "a6df5f72-0792-4acd-b9c9-7260af4ec16c",
+                        "email": "filia-ws@jobbot.site"
+                    },
+                    {
+                        "id": "cb5454f4-27c4-48f9-9d91-9a2f947c16c3",
+                        "email": "main-ws@jobbot.site"
+                    },
+                    {
+                        "id": "6a6038df-6969-4c77-93ef-497b18155e40",
+                        "email": "drep-ws@jobbot.site"
+                    },
+                    {
+                        "id": "130aa396-59e9-4ba7-8a12-6118ee0e211f",
+                        "email": "donis-ws@jobbot.site"
+                    },
+                    {
+                        "id": "b209e1d3-0c26-410a-9aa2-840f23efce0f",
+                        "email": "donis2-ws@jobbot.site"
+                    }
+                ],
+                "decryption": "none"
+            },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/ws"
+                }
+            },
+            "tag": "vless-ws"
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        }
+    ]
+}
